@@ -1,24 +1,24 @@
-import {
-    NavigationMenu,
-    NavigationMenuItem,
-    NavigationMenuList,
-} from "@/components/ui/navigation-menu"
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
 
-const NavBar = () => {
+export const NavBar = () => {
     return (
         <div className="border-b w-full">
             <nav className="container mx-auto p-4">
                 <div className="flex justify-between items-center">
-                    <div className="flex-shrink-0">
+                    <div className="flex items-center space-x-4">
                         <Link href="/">
                             <Image src="globe.svg" alt="logo" width={60} height={10}/>
                         </Link>
-                    </div>
-                    
-                    <div className="flex items-center space-x-10">
+
+                        {/**
+                         * @todo
+                         * Link each button to the appropriate page
+                         */}
+
                         <Button variant="ghost">
                             <Link href={"/sign-up"}>Dashboard</Link>
                         </Button>
@@ -43,5 +43,3 @@ const NavBar = () => {
         </div>
     );
 };
-
-export default NavBar;
