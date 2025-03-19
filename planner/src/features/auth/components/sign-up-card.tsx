@@ -5,7 +5,8 @@ import {
     Card, 
     CardContent, 
     CardHeader, 
-    CardTitle 
+    CardTitle,
+    CardDescription 
 } from "@/components/ui/card";
 import { 
     Form,
@@ -23,31 +24,34 @@ import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { registerSchema } from "../schemas";
+import { useSignUp } from "../api/use-sign-up";
 
-const formSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(8, "Password must be at least 8 characters"),
-});
+export const SignUpCard = () => {
+    const { mutate } = useSignUp();
 
-export const SignInCard = () => {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof registerSchema>>({
+        resolver: zodResolver(registerSchema),
         defaultValues: {
+            name: "",
             email: "",
             password: "",
         },
     });
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values);
-    }
+    const onSubmit = (values: z.infer<typeof registerSchema>) => {
+        mutate({ json: values });
+    };
 
     return (
         <Card className="w-full h-full md:w-[487px] justify-center border-none shadow-none">
-            <CardHeader className="flex items-center justify-center text-center py-4"> 
+            <CardHeader className="flex flex-col items-center justify-center text-center py-2"> 
                 <CardTitle className="text-2xl">
-                    Welcome Back!
+                    Welcome!
                 </CardTitle>
+                <CardDescription className="py-2">
+                    By signing up, you agree to our Terms of Service and Privacy Policy
+                </CardDescription>
             </CardHeader>
             <div className="px-7">
                 <DottedSeparator />
@@ -55,6 +59,21 @@ export const SignInCard = () => {
             <CardContent className="space-y-6">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                        <FormField
+                            name="name" 
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            type="name"
+                                            placeholder="Enter your name"
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             name="email" 
                             control={form.control}
@@ -86,7 +105,7 @@ export const SignInCard = () => {
                             )}
                         />
                         <Button disabled={false} size="lg" className="w-full">
-                            Sign In
+                            Sign Up
                         </Button>
                     </form>
                 </Form>
@@ -102,7 +121,7 @@ export const SignInCard = () => {
                     className="w-full"
                 >
                     <FcGoogle/>
-                    Sign in with Google
+                    Sign up with Google
                 </Button>
                 <Button
                     disabled={false}
@@ -111,7 +130,7 @@ export const SignInCard = () => {
                     className="w-full"
                 >
                     <FaGithub/>
-                    Sign in with Github
+                    Sign up with Github
                 </Button>
             </CardContent>
             <div className="px-7">
@@ -119,12 +138,12 @@ export const SignInCard = () => {
             </div>
             <CardContent className="p-7 flex items-center justify-center">
                 <p className="text-sm space-x-2">
-                    <span>Don't have an account?</span>
-                    <Link href="/sign-up">
-                        <span className="text-orange-600">Sign Up Today!</span>
+                    <span>Already have an account?</span>
+                    <Link href="/sign-in">
+                        <span className="text-orange-600">Sign In!</span>
                     </Link>
                 </p>
             </CardContent>
         </Card>
-    );
+    )
 }

@@ -5,8 +5,7 @@ import {
     Card, 
     CardContent, 
     CardHeader, 
-    CardTitle,
-    CardDescription 
+    CardTitle 
 } from "@/components/ui/card";
 import { 
     Form,
@@ -24,37 +23,31 @@ import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
-const formSchema = z.object({
-    name: z.string().trim().min(2, "Name must be at least 2 characters"),
-    email: z.string().email(),
-    password: z.string().min(8, "Password must be at least 8 characters"),
-});
+import { signinSchema } from "../schemas";
+import { useSignin } from "../api/use-sign-in";
 
 
-export const SignUpCard = () => {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+export const SignInCard = () => {
+    const { mutate } = useSignin();
+
+    const form = useForm<z.infer<typeof signinSchema>>({
+        resolver: zodResolver(signinSchema),
         defaultValues: {
-            name: "",
             email: "",
             password: "",
         },
     });
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values);
-    }
+    const onSubmit = (values: z.infer<typeof signinSchema>) => {
+        mutate({ json: values });
+    };
 
     return (
         <Card className="w-full h-full md:w-[487px] justify-center border-none shadow-none">
-            <CardHeader className="flex flex-col items-center justify-center text-center py-2"> 
+            <CardHeader className="flex items-center justify-center text-center py-4"> 
                 <CardTitle className="text-2xl">
-                    Welcome!
+                    Welcome Back!
                 </CardTitle>
-                <CardDescription className="py-2">
-                    By signing up, you agree to our Terms of Service and Privacy Policy
-                </CardDescription>
             </CardHeader>
             <div className="px-7">
                 <DottedSeparator />
@@ -62,21 +55,6 @@ export const SignUpCard = () => {
             <CardContent className="space-y-6">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        <FormField
-                            name="name" 
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            type="name"
-                                            placeholder="Enter your name"
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
                         <FormField
                             name="email" 
                             control={form.control}
@@ -108,7 +86,7 @@ export const SignUpCard = () => {
                             )}
                         />
                         <Button disabled={false} size="lg" className="w-full">
-                            Sign Up
+                            Sign In
                         </Button>
                     </form>
                 </Form>
@@ -124,7 +102,7 @@ export const SignUpCard = () => {
                     className="w-full"
                 >
                     <FcGoogle/>
-                    Sign up with Google
+                    Sign in with Google
                 </Button>
                 <Button
                     disabled={false}
@@ -133,7 +111,7 @@ export const SignUpCard = () => {
                     className="w-full"
                 >
                     <FaGithub/>
-                    Sign up with Github
+                    Sign in with Github
                 </Button>
             </CardContent>
             <div className="px-7">
@@ -141,12 +119,12 @@ export const SignUpCard = () => {
             </div>
             <CardContent className="p-7 flex items-center justify-center">
                 <p className="text-sm space-x-2">
-                    <span>Already have an account?</span>
-                    <Link href="/sign-in">
-                        <span className="text-orange-600">Sign In!</span>
+                    <span>Don't have an account?</span>
+                    <Link href="/sign-up">
+                        <span className="text-orange-600">Sign Up Today!</span>
                     </Link>
                 </p>
             </CardContent>
         </Card>
-    )
+    );
 }
