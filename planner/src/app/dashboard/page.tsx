@@ -15,7 +15,7 @@ const DashboardPage = () => {
         if (!data && !isLoading) {
             router.push("/sign-in");
         }
-    }, [data]);
+    }, [data, isLoading, router]);
 
     return (
         <div>
