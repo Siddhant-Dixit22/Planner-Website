@@ -23,9 +23,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signinSchema } from "../schemas";
 import { useSignin } from "../api/use-sign-in";
+import { useRouter } from "next/navigation";
 
 
 export const SignInCard = () => {
+    const router = useRouter();
     const { mutate } = useSignin();
 
     const form = useForm<z.infer<typeof signinSchema>>({
@@ -83,7 +85,7 @@ export const SignInCard = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button disabled={false} size="lg" className="w-full">
+                        <Button onClick={() => router.push("/dashboard")} disabled={false} size="lg" className="w-full">
                             Sign In
                         </Button>
                     </form>

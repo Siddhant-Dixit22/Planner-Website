@@ -24,8 +24,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "../schemas";
 import { useSignUp } from "../api/use-sign-up";
+import { useRouter } from "next/navigation";
 
 export const SignUpCard = () => {
+    const router = useRouter();
     const { mutate } = useSignUp();
 
     const form = useForm<z.infer<typeof registerSchema>>({
@@ -102,7 +104,7 @@ export const SignUpCard = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button disabled={false} size="lg" className="w-full">
+                        <Button onClick={() => router.push("/dashboard")} disabled={false} size="lg" className="w-full">
                             Sign Up
                         </Button>
                     </form>
