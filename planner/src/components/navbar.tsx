@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { LogIn } from "lucide-react";
 
 export const NavBar = () => {
     return (
@@ -35,7 +36,10 @@ export const NavBar = () => {
 
                     <div className="flex-shrink-0">
                         <Button variant="default">
-                            <Link href={"/sign-up"}>Register Now</Link>
+                            <Link href={"/sign-up"} className="flex items-center space-x-2">
+                                <LogIn />
+                                <span>Register Now</span>
+                            </Link>
                         </Button>
                     </div>
                 </div>

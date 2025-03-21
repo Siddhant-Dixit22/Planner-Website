@@ -1,3 +1,5 @@
+"use client";
+
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 
@@ -23,12 +25,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signinSchema } from "../schemas";
 import { useSignin } from "../api/use-sign-in";
-import { useRouter } from "next/navigation";
-
 
 export const SignInCard = () => {
-    const router = useRouter();
-    const { mutate } = useSignin();
+    const { mutate, isPending } = useSignin();
 
     const form = useForm<z.infer<typeof signinSchema>>({
         resolver: zodResolver(signinSchema),
@@ -63,6 +62,7 @@ export const SignInCard = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            disabled={isPending}
                                             type="email"
                                             placeholder="Enter your email"
                                         />
@@ -78,6 +78,7 @@ export const SignInCard = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            disabled={isPending}
                                             type="password"
                                             placeholder="Enter your password"
                                         />
@@ -85,7 +86,7 @@ export const SignInCard = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button onClick={() => router.push("/dashboard")} disabled={false} size="lg" className="w-full">
+                        <Button disabled={isPending} size="lg" className="w-full">
                             Sign In
                         </Button>
                     </form>

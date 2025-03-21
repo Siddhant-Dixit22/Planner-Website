@@ -2,7 +2,7 @@ import { LandingPageIntro } from '@/components/landing-page-intro';
 import { NavBar } from '@/components/navbar';
 import React from 'react';
 
-const LandingPage = () => {
+const LandingPage = async () => {
   return (
     <div>
       <div>

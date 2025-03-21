@@ -1,35 +1,19 @@
-"use client"
-
 import { SignedInNavBar } from "@/components/signed-in-navbar";
-// import { Button } from "@/components/ui/button";
-// import { useCurrent } from "@/features/auth/api/use-current";
-// import { useSignout } from "@/features/auth/api/use-sign-out";
-// import { useRouter } from "next/navigation";
-// import { useEffect } from "react";
+import { getCurrent } from "@/features/auth/actions";
+import { redirect } from "next/navigation";
 
-const DashboardPage = () => {
-    // const router = useRouter();
-    // const { data, isLoading } = useCurrent();
-    // const { mutate } = useSignout();
+export default async function DashboardPage() {
+    const user = await getCurrent();
 
-    // useEffect(() => {
-    //     if (!data && !isLoading) {
-    //         router.push("/sign-in");
-    //     }
-    // }, [data, isLoading, router]);
+    if (!user) {
+        redirect("/sign-in");
+    }
 
     return (
         <div>
             <div>
                 <SignedInNavBar />
             </div>
-            {/* <Button
-                onClick={() => mutate()}
-            >
-                Sign Out
-            </Button> */}
         </div>
     )
 };
-
-export default DashboardPage;

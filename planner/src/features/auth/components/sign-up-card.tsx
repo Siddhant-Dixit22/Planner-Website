@@ -1,3 +1,5 @@
+"use client";
+
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 
@@ -24,11 +26,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "../schemas";
 import { useSignUp } from "../api/use-sign-up";
-import { useRouter } from "next/navigation";
 
 export const SignUpCard = () => {
-    const router = useRouter();
-    const { mutate } = useSignUp();
+    const { mutate, isPending } = useSignUp();
 
     const form = useForm<z.infer<typeof registerSchema>>({
         resolver: zodResolver(registerSchema),
@@ -67,6 +67,7 @@ export const SignUpCard = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            disabled={isPending}
                                             type="name"
                                             placeholder="Enter your name"
                                         />
@@ -82,6 +83,7 @@ export const SignUpCard = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            disabled={isPending}
                                             type="email"
                                             placeholder="Enter your email"
                                         />
@@ -104,7 +106,7 @@ export const SignUpCard = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button onClick={() => router.push("/dashboard")} disabled={false} size="lg" className="w-full">
+                        <Button disabled={isPending} size="lg" className="w-full">
                             Sign Up
                         </Button>
                     </form>

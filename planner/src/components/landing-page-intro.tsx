@@ -23,8 +23,8 @@ export const LandingPageIntro = () => {
             <p className="text-gray-600">Organize your tasks efficiently</p>
           </div>
           <div className="text-center p-6 bg-white rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-4">Calendar Integration</h2>
-            <p className="text-gray-600">Make it a better calender that is suited for you</p>
+            <h2 className="text-xl font-semibold mb-4">A.I. Integration</h2>
+            <p className="text-gray-600">Have the help of A.I. to manage your time.</p>
           </div>
           <div className="text-center p-6 bg-white rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-4">Progress Tracking</h2>
